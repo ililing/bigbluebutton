@@ -233,6 +233,14 @@ package org.bigbluebutton.main.model.users {
 			return me.name;
 		}
 		
+		public function setMySid(sid:String):void {
+			me.sid = sid;
+		}
+		
+		public function getMySid():String {
+			return me.sid;
+		}
+		
 		public function setMyRole(role:String):void {
 			me.role = role;
 		}

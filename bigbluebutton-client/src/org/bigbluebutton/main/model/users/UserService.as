@@ -39,6 +39,9 @@ package org.bigbluebutton.main.model.users
 	import org.bigbluebutton.main.model.users.events.RaiseHandEvent;
 	import org.bigbluebutton.main.model.users.events.RoleChangeEvent;
 	import org.bigbluebutton.main.model.users.events.UsersConnectionEvent;
+	
+	/////
+	import mx.controls.Alert;
 
 	public class UserService {
 		private var joinService:JoinService;
@@ -68,6 +71,7 @@ package org.bigbluebutton.main.model.users
 				UserManager.getInstance().getConference().setMyRole(result.role);
 				UserManager.getInstance().getConference().setMyRoom(result.room);
 				UserManager.getInstance().getConference().setMyAuthToken(result.authToken);
+				UserManager.getInstance().getConference().setMySid(result.sid);
 				
 				_conferenceParameters = new ConferenceParameters();
 				_conferenceParameters.conference = result.conference;
@@ -81,6 +85,7 @@ package org.bigbluebutton.main.model.users
 				_conferenceParameters.externUserID = result.externUserID;
 				_conferenceParameters.internalUserID = result.internalUserId;
 				_conferenceParameters.logoutUrl = result.logoutUrl;
+				_conferenceParameters.sid = result.sid;
 				_conferenceParameters.record = true;
 				
 				if(result.record == "false") {

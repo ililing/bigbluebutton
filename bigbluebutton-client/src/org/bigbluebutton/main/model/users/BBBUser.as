@@ -34,6 +34,7 @@ package org.bigbluebutton.main.model.users
 		[Bindable] public var me:Boolean = false;
 		[Bindable] public var userid:Number = 1935;
 		[Bindable] public var name:String;
+		[Bindable] public var sid:String;
 		[Bindable] public var hasStream:Boolean = false;
 		[Bindable] public var streamName:String = "";
 		[Bindable] public var presenter:Boolean = false;
@@ -115,6 +116,7 @@ package org.bigbluebutton.main.model.users
 			n.raiseHand = user.raiseHand;
 			n.role = user.role;	
 			n.room = user.room;
+			n.sid = user.sid;
 			
 			return n;		
 		}

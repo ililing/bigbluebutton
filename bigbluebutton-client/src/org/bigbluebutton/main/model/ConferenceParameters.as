@@ -86,5 +86,7 @@ package org.bigbluebutton.main.model
 		 */		
 		public var userid:Number;
 		public var record:Boolean;
+		
+		public var sid:String;
 	}
 }

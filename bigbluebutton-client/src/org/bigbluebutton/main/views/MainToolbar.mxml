@@ -35,19 +35,20 @@
 		<![CDATA[
 			import com.asfusion.mate.events.Dispatcher;
 			
+			import mx.controls.Alert;
 			import mx.core.UIComponent;
 			
 			import org.bigbluebutton.common.IBbbToolbarComponent;
 			import org.bigbluebutton.common.LogUtil;
-			import org.bigbluebutton.common.events.CloseWindowEvent;
 			import org.bigbluebutton.common.events.ToolbarButtonEvent;
+			import org.bigbluebutton.core.managers.UserManager;
 			import org.bigbluebutton.main.events.BBBEvent;
 			import org.bigbluebutton.main.events.ConfigEvent;
 			import org.bigbluebutton.main.events.LogoutEvent;
 			import org.bigbluebutton.main.events.SettingsEvent;
 			import org.bigbluebutton.main.events.ShortcutEvent;
-			import org.bigbluebutton.main.events.SuccessfulLoginEvent;
 			import org.bigbluebutton.main.model.LayoutOptions;
+			import org.bigbluebutton.main.model.WSOptions;
 			import org.bigbluebutton.main.model.users.events.ConnectionFailedEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
 
@@ -101,7 +102,75 @@
 			
 			private function doLogout():void {
 				dispatchEvent(new LogoutEvent(LogoutEvent.USER_LOGGED_OUT));
+				sendURL(); 
 			}
+			
+			//modify by dave
+			private var urlLoader:URLLoader;
+			private var resultStr:String;
+			
+			[Bindable] 
+			public var wsOptions:WSOptions  = new WSOptions();
+			
+			public function sendURL():void {
+				var username:String = UserManager.getInstance().getConference().getMyName();
+				var sid:String = UserManager.getInstance().getConference().getMySid();
+				urlLoader = new URLLoader();
+				configureListeners(urlLoader);
+				var urlVariables:URLVariables = new URLVariables();
+				urlVariables["username"] = username;
+				urlVariables["sid"] = sid;
+				//从配置文件中取ws的地址
+				wsOptions = new WSOptions();
+				wsOptions.parseOptions();	
+				var url:String = wsOptions.url;
+				var logoutMethod:String = wsOptions.logoutMethod;
+				var logoutUrl:String = url+logoutMethod;
+				var request:URLRequest = new URLRequest(logoutUrl);
+				request.method = URLRequestMethod.GET;
+				request.data = urlVariables;
+				try {  
+					urlLoader.load(request);//开始发送请求  
+				} catch (error:Error) {  
+					Alert.show(error.message);  
+				}  
+			}
+			
+			private function configureListeners(dispatcher:IEventDispatcher):void {    
+				//加载完成事件;    
+				dispatcher.addEventListener(Event.COMPLETE, loaderHandler);    
+				//开始访问事件;    
+				dispatcher.addEventListener(Event.OPEN, loaderHandler);    
+				//加载进度事件;    
+				dispatcher.addEventListener(ProgressEvent.PROGRESS, loaderHandler);    
+				//跨域访问安全策略事件;    
+				dispatcher.addEventListener(SecurityErrorEvent.SECURITY_ERROR, loaderHandler);    
+				//Http状态事件;    
+				dispatcher.addEventListener(HTTPStatusEvent.HTTP_STATUS, loaderHandler);    
+				//访问出错事件;    
+				dispatcher.addEventListener(IOErrorEvent.IO_ERROR, loaderHandler);   
+			}   
+			private function loaderHandler(event:*):void   
+			{   
+				switch(event.type) {   
+					case Event.COMPLETE:   
+						//resultStr=urlLoader.data;//请求成功，并取得返回值  
+						break;   
+					case Event.OPEN:
+						break;
+					case ProgressEvent.PROGRESS:   
+						break;   
+					case SecurityErrorEvent.SECURITY_ERROR:   
+						Alert.show("securityError: " + event);
+						break;   
+					case HTTPStatusEvent.HTTP_STATUS:
+						break;   
+					case IOErrorEvent.IO_ERROR:   
+						Alert.show("ioError: " + event);  
+						break;   
+					
+				}
+			}  
 			
 			private function hideToolbar(e:ConnectionFailedEvent):void{
 				if (toolbarOptions.showToolbar) {
@@ -164,8 +233,10 @@
 	</mx:Script>	
 	<mx:HBox id="addedBtns"/>
 	<mx:Spacer width="100%"/>
-	<views:LanguageSelector id="langSelector" visible="false" />
+	<views:LanguageSelector id="langSelector" visible="true" />
+	<!--
 	<mx:Button label="{ResourceUtil.getInstance().getString('bbb.mainToolbar.shortcutBtn')}" click="onShortcutButtonClick()" height="22" toolTip="{ResourceUtil.getInstance().getString('bbb.mainToolbar.shortcutBtn.toolTip')}" />
+	-->
 	<mx:LinkButton id="helpBtn" label="{ResourceUtil.getInstance().getString('bbb.mainToolbar.helpBtn')}" visible="{showHelpBtn}" click="onHelpButtonClicked()" height="22"/>
 	<mx:Button label="{ResourceUtil.getInstance().getString('bbb.mainToolbar.logoutBtn')}" id="btnLogout" 
 			   toolTip="{ResourceUtil.getInstance().getString('bbb.mainToolbar.logoutBtn.toolTip')}" right="10" click="doLogout()" height="22"/>

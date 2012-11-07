@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  BigBlueButton open source conferencing system - http://www.bigbluebutton.org
-  
-  Copyright (c) 2010 BigBlueButton Inc. and by respective authors (see below).
-  
-  BigBlueButton is free software; you can redistribute it and/or modify it under the 
-  terms of the GNU Lesser General Public License as published by the Free Software 
-  Foundation; either version 2.1 of the License, or (at your option) any later 
-  version. 
-  
-  BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY 
-  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
-  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
-  
-  You should have received a copy of the GNU Lesser General Public License along 
-  with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
- 
-  $Id: $
+BigBlueButton open source conferencing system - http://www.bigbluebutton.org
+
+Copyright (c) 2010 BigBlueButton Inc. and by respective authors (see below).
+
+BigBlueButton is free software; you can redistribute it and/or modify it under the 
+terms of the GNU Lesser General Public License as published by the Free Software 
+Foundation; either version 2.1 of the License, or (at your option) any later 
+version. 
+
+BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along 
+with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+
+$Id: $
 -->
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:views="org.bigbluebutton.main.views.*"
-	xmlns:maps="org.bigbluebutton.main.maps.*"
-	xmlns:mate="http://mate.asfusion.com/"
-	xmlns:m="library://melomel/2010"
-	pageTitle="BigBlueButton"
-	layout="absolute" preinitialize="init()"
-	preloader="org.bigbluebutton.main.model.BigBlueButtonPreloader"
-	applicationComplete="hotkeyCapture()">
+				xmlns:views="org.bigbluebutton.main.views.*"
+				xmlns:maps="org.bigbluebutton.main.maps.*"
+				xmlns:mate="http://mate.asfusion.com/"
+				xmlns:m="library://melomel/2010"
+				pageTitle="BigBlueButton"
+				layout="absolute" preinitialize="init()"
+				preloader="org.bigbluebutton.main.model.BigBlueButtonPreloader"
+				applicationComplete="hotkeyCapture()">
 	
 	<mx:Script>
 		<![CDATA[
@@ -44,35 +44,35 @@
 			import org.bigbluebutton.util.i18n.ResourceUtil;
 			import org.bigbluebutton.common.events.AddUIComponentToMainCanvas;
 			
-		private var langResources:ResourceUtil = ResourceUtil.getInstance();
-		
-		public var myFoo:String = "bar";
+			private var langResources:ResourceUtil = ResourceUtil.getInstance();
 			
-		/**
-		 * Thse two lines are workaround for this. (ralam - Nov 8, 2008)
-		 * http://gregjessup.com/flex-3-advanceddatagrid-cannot-convert-mxmanagersdragmanagerimpl-to-mxmanagersidragmanager/
-		 * http://butterfliesandbugs.wordpress.com/2007/10/25/workaround-for-error-when-loading-popups-from-modules/
-		 */
-		import mx.managers.IDragManager; 
-		private var iDragManager:IDragManager;  
-
-		/** another workaround - for this issue: https://bugs.adobe.com/jira/browse/SDK-13121*/
-		private var hist:HistoryManager
-
-		private function handleChatEvent(e:Event):void {
-			trace('Got CHAT_EVENT');
-		}
-
-		public function setFoo(f:String):void {
-			myFoo = f;
-		}
-		
+			public var myFoo:String = "bar";
+			
+			/**
+			 * Thse two lines are workaround for this. (ralam - Nov 8, 2008)
+			 * http://gregjessup.com/flex-3-advanceddatagrid-cannot-convert-mxmanagersdragmanagerimpl-to-mxmanagersidragmanager/
+			 * http://butterfliesandbugs.wordpress.com/2007/10/25/workaround-for-error-when-loading-popups-from-modules/
+			 */
+			import mx.managers.IDragManager; 
+			private var iDragManager:IDragManager;  
+			
+			/** another workaround - for this issue: https://bugs.adobe.com/jira/browse/SDK-13121*/
+			private var hist:HistoryManager
+			
+			private function handleChatEvent(e:Event):void {
+				trace('Got CHAT_EVENT');
+			}
+			
+			public function setFoo(f:String):void {
+				myFoo = f;
+			}
+			
 			/******************************
 			 * Testing
 			 ******************************/
 			
-
-		
+			
+			
 			private var globalDispatcher:Dispatcher = new Dispatcher();
 			
 			// Login test
@@ -138,9 +138,9 @@
 			}
 			
 			public function handleAddedListenerEvent(event:BBBEvent):void {
-//				if (event.message == _attributes.username) {
-					didUserJoin = true;
-//				}
+				//				if (event.message == _attributes.username) {
+				didUserJoin = true;
+				//				}
 			}
 			
 			/**
@@ -201,7 +201,7 @@
 				globalDispatcher.dispatchEvent(new BBBEvent(BBBEvent.START_DESKSHARE));
 				return "true";
 			}			
-
+			
 			protected function init():void {	
 				EventBroadcaster.getInstance().addEventListener("configLoadedEvent", configLoadedEventHandler);
 				BBB.initConfigManager();
@@ -211,7 +211,7 @@
 				LogUtil.debug("***** Config Loaded ****");
 				mainShell.initOptions(null);
 			}
-
+			
 			/**
 			 * Shortcut Keys
 			 */
@@ -230,7 +230,7 @@
 				keyCombos[(ResourceUtil.getInstance().getString('bbb.shortcutkey.present.focusslide') as String)] = ShortcutEvent.FOCUS_SLIDE;
 				keyCombos[(ResourceUtil.getInstance().getString('bbb.shortcutkey.whiteboard.undo') as String)] = ShortcutEvent.UNDO_WHITEBOARD;
 			}
-
+			
 			public function hotkeyCapture():void{
 				LogUtil.debug("Entering hotkeyCapture");
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown);
@@ -241,9 +241,9 @@
 			public function handleKeyDown(e:KeyboardEvent) :void
 			{
 				var keyPress:String = (e.ctrlKey  ? "control+" : "") +
-									  (e.shiftKey ? "shift+"   : "") +
-									  (e.altKey   ? "alt+"     : "") +
-									  e.keyCode;
+					(e.shiftKey ? "shift+"   : "") +
+					(e.altKey   ? "alt+"     : "") +
+					e.keyCode;
 				//LogUtil.debug("Chad keypress " + keyPress);
 				
 				if (keyCombos[keyPress])

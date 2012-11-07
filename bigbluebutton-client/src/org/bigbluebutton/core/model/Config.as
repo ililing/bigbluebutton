@@ -57,6 +57,10 @@ package org.bigbluebutton.core.model
 		public function get layout():XML {
 			return new XML(config.layout.toXMLString());
 		}
+		
+		public function get ws():XML{
+			return new XML(config.ws.toXMLString());
+		}
 			
 		public function isModulePresent(name:String):Boolean {
 			var mn:XMLList = config.modules..@name;

@@ -101,7 +101,7 @@ package org.bigbluebutton.modules.chat.services
 				new Responder(
 	        		// On successful result
 					function(result:Object):void { 
-						LogUtil.debug("Successfully sent message: "); 
+						LogUtil.debug("Successfully sent message: "+chatobj.userid); 
 					},	
 					// status - On error occurred
 					function(status:Object):void { 
